@@ -2,7 +2,7 @@
 
 $ILIAS_ROOT = realpath(__DIR__ . '/../../../../../../../../');
 
-if(file_exists($ILIAS_ROOT . '/libs/composer/vendor/autoload')) {
+if(file_exists($ILIAS_ROOT . '/libs/composer/vendor/autoload.php')) {
     require_once $ILIAS_ROOT . '/libs/composer/vendor/autoload.php';
 }
 
