@@ -10,7 +10,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[CI SKIP]')"
     runs-on: ubuntu-22.04
     env:
-      PLUGIN_PATH: Customizing/global/plugins/Services/COPage/PageComponent
+      PLUGIN_PATH: Customizing/global/plugins/Services/COPage/PageComponent/CoSourceCode
     strategy:
       matrix:
         php:
