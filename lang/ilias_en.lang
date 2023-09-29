@@ -1,0 +1,15 @@
+cmd_insert#:#Insert Source Code
+co_source_code#:#Source Code
+co_source_code_created#:#Source Code Created
+co_source_code_updated#:#Source Code Updated
+language#:#Programming Language
+language_actives#:#Available Programming Languages
+language_default#:#Default Programming Language
+theme_actives#:#Available Themes
+theme_default#:#Default Theme
+theme#:#Theme
+line_numbers#:#Show Line Numbers
+text#:#Content
+description#:#Description
+create#:#Create
+update#:#Update

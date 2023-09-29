@@ -1,0 +1,9 @@
+parameters:
+    level: max
+
+    paths:
+        - classes/
+        - src/
+        - tests/
+    scanDirectories:
+        - ./../../../../../../../Services

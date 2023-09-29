@@ -1,0 +1,15 @@
+cmd_insert#:#Quellcode einfügen
+co_source_code#:#Quellcode
+co_source_code_created#:#Quellcode erstellt
+co_source_code_updated#:#Quellcode aktualisiert
+language#:#Programmiersprache
+language_actives#:#Verfügbare Programmiersprachen
+language_default#:#Standard Programmiersprache
+theme_actives#:#Verfügbare Designs
+theme_default#:#Standard Design
+theme#:#Design
+line_numbers#:#Zeilennummern anzeigen
+text#:#Inhalt
+description#:#Beschreibung
+create#:#Erstellen
+update#:#Aktualisieren
