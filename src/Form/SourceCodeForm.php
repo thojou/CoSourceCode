@@ -41,11 +41,13 @@ class SourceCodeForm extends ilPropertyFormGUI
 
     /**
      * MarkdownForm constructor.
-     * @param string $mode
-     * @param ilCoSourceCodePlugin $plugin
+     *
+     * @param string                  $mode
+     * @param ilCoSourceCodePlugin    $plugin
      * @param OptionsServiceInterface $languageOptionsService
      * @param OptionsServiceInterface $themeOptionsService
-     * @param string[] $properties
+     * @param string[]                $properties
+     *
      * @throws ilCtrlException
      */
     public function __construct(
@@ -106,13 +108,13 @@ class SourceCodeForm extends ilPropertyFormGUI
     {
         $props = [];
         foreach ($this->getItems() as $item) {
-            if($item instanceof ilCheckboxInputGUI) {
+            if ($item instanceof ilCheckboxInputGUI) {
                 $value = $item->getChecked();
             } else {
                 $value = $item->getValue();
             }
 
-            if($item->getPostVar() == 'srcCode') {
+            if ($item->getPostVar() == 'srcCode') {
                 $value = preg_replace('/\t/', join("", array_fill(0, self::TAB_SIZE, " ")), $value);
             }
 

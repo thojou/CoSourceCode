@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  PHPUnit:
+    name: PHPUnit (PHP ${{ matrix.php }})
+    if: "!contains(github.event.head_commit.message, '[CI SKIP]')"
+    runs-on: ubuntu-22.04
+    env:
+      PLUGIN_PATH: Customizing/global/plugins/Services/COPage/PageComponent
+    strategy:
+      matrix:
+        php:
+          - 8.2
+          - 8.1
+          - 7.4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ILIAS-eLearning/ILIAS
+          ref: release_8
+      - uses: actions/checkout@v4
+        with:
+          path: ${{ env.PLUGIN_PATH }}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+          ini-file: development
+      - run: composer install
+        working_directory: ${{ env.PLUGIN_PATH }}
+      - run: vendor/bin/phpunit --coverage-text --coverage-clover=clover.xml
+        working_directory: ${{ env.PLUGIN_PATH }}
+      - name: Check 100% code coverage
+        shell: php {0}
+        run: |
+          <?php
+          $metrics = simplexml_load_file('clover.xml')->project->metrics;
+          exit((int) $metrics['statements'] === (int) $metrics['coveredstatements'] ? 0 : 1);
+        working_directory: ${{ env.PLUGIN_PATH }}

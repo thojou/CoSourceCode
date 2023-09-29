@@ -20,6 +20,7 @@ return (new PhpCsFixer\Config())
         'declare_strict_types' => true,
         'header_comment' => ['header' => $header],
         'strict_param' => true,
+        'phpdoc_align' => true
     ])
     ->setUsingCache(false)
     ->setRiskyAllowed(true)

@@ -30,6 +30,7 @@ class ilCoSourceCodePlugin extends ilPageComponentPlugin
 
     /**
      * Returns the assets folder path
+     *
      * @return string
      */
     public function assetsFolder(): string
@@ -41,6 +42,7 @@ class ilCoSourceCodePlugin extends ilPageComponentPlugin
      * @param string $a_template
      * @param bool   $a_par1
      * @param bool   $a_par2
+     *
      * @return ilTemplate
      * @throws ilTemplateException
      */
@@ -51,6 +53,7 @@ class ilCoSourceCodePlugin extends ilPageComponentPlugin
 
     /**
      * @param string $a_mode
+     *
      * @return array<string>
      */
     public function getCssFiles(string $a_mode): array

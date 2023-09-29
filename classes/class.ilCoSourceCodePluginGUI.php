@@ -11,6 +11,7 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
+use CoSourceCode\CodeHighlighter;
 use CoSourceCode\Form\SourceCodeForm;
 use CoSourceCode\Options\LanguageOptionsService;
 use CoSourceCode\Options\ThemeOptionsService;
@@ -29,13 +30,16 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
     protected ilPageComponentPlugin $plugin;
     private ilCtrl $ctrl;
     private ilGlobalTemplateInterface $mainTemplate;
+    private CodeHighlighter $codeHighlighter;
 
     public function __construct()
     {
         parent::__construct();
         global $DIC;
+
         $this->ctrl = $DIC->ctrl();
         $this->mainTemplate = $DIC->ui()->mainTemplate();
+        $this->codeHighlighter = new CodeHighlighter();
     }
 
     public function executeCommand(): void
@@ -101,9 +105,10 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
     }
 
     /**
-     * @param string $a_mode
+     * @param string        $a_mode
      * @param array<string> $a_properties
-     * @param string $plugin_version
+     * @param string        $plugin_version
+     *
      * @return string
      * @throws ilSystemStyleException
      * @throws ilTemplateException
@@ -116,7 +121,11 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
         );
 
         $showLineNumbers = $a_properties['lineNumbers'] ?? false;
-        $highlighted = $this->highlight($a_properties['srcCode'], $a_properties['language'], (bool)$showLineNumbers);
+        $highlighted = $this->codeHighlighter->highlight(
+            $a_properties['srcCode'],
+            $a_properties['language'],
+            (bool)$showLineNumbers
+        );
 
         if ($showLineNumbers and is_array($highlighted['value'])) {
             $tpl = new ilTemplate('tpl.source_code_line_numbers.html', true, true, $this->plugin->getDirectory());
@@ -144,38 +153,11 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
         return $tpl->get();
     }
 
-    /**
-     * @param string $code
-     * @param string $language
-     * @param bool $splitLines
-     * @return array{language: string, value: string|array<string>}
-     *
-     * @throws Exception
-     */
-    private function highlight(string $code, string $language = 'php', bool $splitLines = false): array
-    {
-        $code = html_entity_decode($code);
-
-        try {
-            $hl = new Highlighter();
-            $highlighted = $hl->highlight($language, $code);
-
-            return [
-                'language' => $highlighted->language,
-                'value' => $splitLines ? splitCodeIntoArray($highlighted->value) : $highlighted->value
-            ];
-        } catch (DomainException $e) {
-            $code = htmlentities($code);
-            return [
-                'language' => $language,
-                'value' => $splitLines ? explode("\n", $code) : $code
-            ];
-        }
-    }
 
     /**
-     * @param string $mode
+     * @param string        $mode
      * @param array<string> $properties
+     *
      * @return SourceCodeForm
      * @throws ilCtrlException
      */

@@ -2,28 +2,34 @@
 .co-source-code-container {
     padding: 1.5rem 0;
 }
+
 .co-source-code-container table {
     border-collapse: collapse;
     border-spacing: 0;
     font-family: sans-serif;
     width: 100%;
 }
+
 .co-source-code-container table .hljs {
     padding: 0 0.5em;
 }
+
 .co-source-code-container table th, td {
     border: none;
     overflow: auto;
 }
+
 .co-source-code-container table td[data-line-number] {
     border-right: 1px solid grey;
     padding: 0 15px;
     text-align: right;
 }
+
 .co-source-code-container table td[data-line-number]::before {
     content: attr(data-line-number);
     display: block;
 }
+
 .co-source-code-container pre.co-source-code,
 .co-source-code-container table .co-source-code-row pre {
     background: transparent;

@@ -45,12 +45,12 @@ abstract class BaseOptionsService implements OptionsServiceInterface
     {
         $storedOptions = $this->ilSetting->get($this->getSettingsKey());
 
-        if(!$storedOptions) {
+        if (!$storedOptions) {
             return $this->getDefaultActives();
         }
 
         $result = json_decode($storedOptions);
-        if(!is_array($result)) {
+        if (!is_array($result)) {
             return $this->getDefaultActives();
         }
 
@@ -85,7 +85,7 @@ abstract class BaseOptionsService implements OptionsServiceInterface
      * Sort the available options to set all active options to the beginning.
      *
      * @param array<string> $available The list of all available options
-     * @param array<string> $actives The list of all active options
+     * @param array<string> $actives   The list of all active options
      *
      * @return array<string> The sorted list of all available options
      */
@@ -94,10 +94,10 @@ abstract class BaseOptionsService implements OptionsServiceInterface
         usort($available, function ($a, $b) use ($actives) {
             $aActive = in_array($a, $actives, true);
             $bActive = in_array($b, $actives, true);
-            if($aActive && !$bActive) {
+            if ($aActive && !$bActive) {
                 return -1;
             }
-            if(!$aActive && $bActive) {
+            if (!$aActive && $bActive) {
                 return 1;
             }
 

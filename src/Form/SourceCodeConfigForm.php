@@ -15,7 +15,6 @@ namespace CoSourceCode\Form;
 
 use CoSourceCode\Options\OptionsServiceInterface;
 use ilCoSourceCodeConfigGUI;
-use ilCoSourceCodePlugin;
 use ilMultiSelectInputGUI;
 use ilPlugin;
 use ilPropertyFormGUI;
@@ -42,7 +41,10 @@ class SourceCodeConfigForm extends ilPropertyFormGUI
         $this->themeOptionsService = $themeOptionsService;
 
         $languages = $this->languageOptionsService->loadAll();
-        $activeLanguagesSelectionInput = new ilMultiSelectInputGUI($this->plugin->txt("language_actives"), "language_actives");
+        $activeLanguagesSelectionInput = new ilMultiSelectInputGUI(
+            $this->plugin->txt("language_actives"),
+            "language_actives"
+        );
         $activeLanguagesSelectionInput->setOptions(array_combine($languages, $languages));
         $activeLanguagesSelectionInput->setValue($this->languageOptionsService->loadActives());
         $activeLanguagesSelectionInput->setHeight(400);
@@ -82,17 +84,18 @@ class SourceCodeConfigForm extends ilPropertyFormGUI
 
     /**
      * @param string $postVar
+     *
      * @return null|string|array<string>
      */
     private function getItemValue(string $postVar)
     {
         $item = $this->getItemByPostVar($postVar);
 
-        if(!$item) {
+        if (!$item) {
             return null;
         }
 
-        if(!method_exists($item, 'getValue')) {
+        if (!method_exists($item, 'getValue')) {
             return null;
         }
 

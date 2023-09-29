@@ -33,6 +33,7 @@ interface OptionsServiceInterface
      * Set the list of all activated options.
      *
      * @param array<string> $actives
+     *
      * @return void
      */
     public function setActives(array $actives): void;
@@ -41,6 +42,7 @@ interface OptionsServiceInterface
      * Set the default option.
      *
      * @param string $default
+     *
      * @return void
      */
     public function setDefault(string $default): void;

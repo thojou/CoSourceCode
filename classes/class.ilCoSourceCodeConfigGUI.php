@@ -37,7 +37,7 @@ class ilCoSourceCodeConfigGUI extends ilPluginConfigGUI
 
     public function performCommand(string $cmd): void
     {
-        if(method_exists($this, $cmd)) {
+        if (method_exists($this, $cmd)) {
             $this->$cmd();
         }
     }
@@ -52,7 +52,7 @@ class ilCoSourceCodeConfigGUI extends ilPluginConfigGUI
         $form = $this->renderForm();
         $form->setValuesByPost();
 
-        if(!$form->checkInput()) {
+        if (!$form->checkInput()) {
             return;
         }
 
@@ -63,7 +63,7 @@ class ilCoSourceCodeConfigGUI extends ilPluginConfigGUI
 
     private function renderForm(): SourceCodeConfigForm
     {
-        if(!$this->plugin_object) {
+        if (!$this->plugin_object) {
             throw new LogicException('Plugin object not set');
         }
 
