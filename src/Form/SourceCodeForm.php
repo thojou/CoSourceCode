@@ -108,14 +108,13 @@ class SourceCodeForm extends ilPropertyFormGUI
     {
         $props = [];
         foreach ($this->getItems() as $item) {
+            $value = $item->getValue();
             if ($item instanceof ilCheckboxInputGUI) {
                 $value = $item->getChecked();
-            } else {
-                $value = $item->getValue();
             }
 
             if ($item->getPostVar() == 'srcCode') {
-                $value = preg_replace('/\t/', join("", array_fill(0, self::TAB_SIZE, " ")), $value);
+                $value = preg_replace('/\t/', join("", array_fill(0, self::TAB_SIZE, " ")), (string)$value);
             }
 
             $props[$item->getPostVar()] = $value;

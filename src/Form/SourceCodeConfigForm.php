@@ -72,6 +72,10 @@ class SourceCodeConfigForm extends ilPropertyFormGUI
 
         $this->setFormAction($this->ctrl->getFormActionByClass(ilCoSourceCodeConfigGUI::class, 'save'));
         $this->addCommandButton('save', $this->plugin->txt('save'));
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->setValuesByPost();
+        }
     }
 
     public function save(): void
@@ -91,14 +95,6 @@ class SourceCodeConfigForm extends ilPropertyFormGUI
     {
         $item = $this->getItemByPostVar($postVar);
 
-        if (!$item) {
-            return null;
-        }
-
-        if (!method_exists($item, 'getValue')) {
-            return null;
-        }
-
-        return $item->getValue();
+        return $item->getValue(); // @phpstan-ignore-line
     }
 }

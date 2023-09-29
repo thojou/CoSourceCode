@@ -12,8 +12,10 @@ declare(strict_types=1);
  */
 
 use CoSourceCode\CodeHighlighter;
+use CoSourceCode\DI\PluginContainer;
 use CoSourceCode\Form\SourceCodeForm;
 use CoSourceCode\Options\LanguageOptionsService;
+use CoSourceCode\Options\OptionsServiceInterface;
 use CoSourceCode\Options\ThemeOptionsService;
 use Highlight\Highlighter;
 
@@ -28,18 +30,21 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
      * @var ilCoSourceCodePlugin&ilPageComponentPlugin
      */
     protected ilPageComponentPlugin $plugin;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $mainTemplate;
     private CodeHighlighter $codeHighlighter;
+    private OptionsServiceInterface $languageOptionsService;
+    private OptionsServiceInterface $themeOptionsService;
 
     public function __construct()
     {
         parent::__construct();
-        global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->mainTemplate = $DIC->ui()->mainTemplate();
-        $this->codeHighlighter = new CodeHighlighter();
+        $this->ctrl = PluginContainer::get()->core()->ctrl();
+        $this->mainTemplate = PluginContainer::get()->core()->ui()->mainTemplate();
+        $this->codeHighlighter = PluginContainer::get()->getService(CodeHighlighter::class);
+        $this->languageOptionsService = PluginContainer::get()->getService(LanguageOptionsService::class);
+        $this->themeOptionsService = PluginContainer::get()->getService(ThemeOptionsService::class);
     }
 
     public function executeCommand(): void
@@ -71,18 +76,21 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
     public function create(): void
     {
         $form = $this->renderForm(SourceCodeForm::MODE_CREATE);
+
         if (!$form->checkInput()) {
             return;
         }
 
         if ($this->createElement($form->getData())) {
-            $this->mainTemplate->setOnScreenMessage(
-                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
-                $this->getPlugin()->txt("co_source_code_created"),
-                true
-            );
-            $this->returnToParent();
+            return;
         }
+
+        $this->mainTemplate->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->getPlugin()->txt("co_source_code_created"),
+            true
+        );
+        $this->returnToParent();
     }
 
     /**
@@ -91,17 +99,21 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
     public function update(): void
     {
         $form = $this->renderForm(SourceCodeForm::MODE_UPDATE, $this->getProperties());
+
         if (!$form->checkInput()) {
             return;
         }
-        if ($this->updateElement($form->getData())) {
-            $this->mainTemplate->setOnScreenMessage(
-                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
-                $this->getPlugin()->txt("co_source_code_updated"),
-                true
-            );
-            $this->returnToParent();
+
+        if (!$this->updateElement($form->getData())) {
+            return;
         }
+
+        $this->mainTemplate->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->getPlugin()->txt("co_source_code_updated"),
+            true
+        );
+        $this->returnToParent();
     }
 
     /**
@@ -163,13 +175,11 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
      */
     private function renderForm(string $mode, array $properties = []): SourceCodeForm
     {
-        $setting = new ilSetting($this->plugin->getPluginName());
-
         $form = new SourceCodeForm(
             $mode,
             $this->plugin,
-            new LanguageOptionsService($setting),
-            new ThemeOptionsService($setting),
+            $this->languageOptionsService,
+            $this->themeOptionsService,
             $properties
         );
 

@@ -11,8 +11,10 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
+use CoSourceCode\DI\PluginContainer;
 use CoSourceCode\Form\SourceCodeConfigForm;
 use CoSourceCode\Options\LanguageOptionsService;
+use CoSourceCode\Options\OptionsServiceInterface;
 use CoSourceCode\Options\ThemeOptionsService;
 
 /**
@@ -20,19 +22,17 @@ use CoSourceCode\Options\ThemeOptionsService;
  */
 class ilCoSourceCodeConfigGUI extends ilPluginConfigGUI
 {
-    /**
-     * @var ilCoSourceCodePlugin|ilPlugin|null
-     */
-    protected ?ilPlugin $plugin_object;
     private ilGlobalTemplateInterface $mainTemplate;
     private ilCtrlInterface $ctrl;
+    private OptionsServiceInterface $languageOptionsService;
+    private OptionsServiceInterface $themeOptionsService;
 
     public function __construct()
     {
-        global $DIC;
-
-        $this->mainTemplate = $DIC->ui()->mainTemplate();
-        $this->ctrl = $DIC->ctrl();
+        $this->mainTemplate = PluginContainer::get()->core()->ui()->mainTemplate();
+        $this->ctrl = PluginContainer::get()->core()->ctrl();
+        $this->languageOptionsService = PluginContainer::get()->getService(LanguageOptionsService::class);
+        $this->themeOptionsService = PluginContainer::get()->getService(ThemeOptionsService::class);
     }
 
     public function performCommand(string $cmd): void
@@ -50,7 +50,6 @@ class ilCoSourceCodeConfigGUI extends ilPluginConfigGUI
     public function save(): void
     {
         $form = $this->renderForm();
-        $form->setValuesByPost();
 
         if (!$form->checkInput()) {
             return;
@@ -67,12 +66,10 @@ class ilCoSourceCodeConfigGUI extends ilPluginConfigGUI
             throw new LogicException('Plugin object not set');
         }
 
-        $setting = new ilSetting($this->plugin_object->getPluginName());
-
         $form = new SourceCodeConfigForm(
             $this->plugin_object,
-            new LanguageOptionsService($setting),
-            new ThemeOptionsService($setting)
+            $this->languageOptionsService,
+            $this->themeOptionsService
         );
 
         $this->mainTemplate->setContent($form->getHTML());
