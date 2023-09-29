@@ -31,13 +31,13 @@ jobs:
           coverage: xdebug
           ini-file: development
       - run: composer install
-        working_directory: ${{ env.PLUGIN_PATH }}
+        working-directory: ${{ env.PLUGIN_PATH }}
       - run: vendor/bin/phpunit --coverage-text --coverage-clover=clover.xml
-        working_directory: ${{ env.PLUGIN_PATH }}
+        working-directory: ${{ env.PLUGIN_PATH }}
       - name: Check 100% code coverage
         shell: php {0}
         run: |
           <?php
           $metrics = simplexml_load_file('clover.xml')->project->metrics;
           exit((int) $metrics['statements'] === (int) $metrics['coveredstatements'] ? 0 : 1);
-        working_directory: ${{ env.PLUGIN_PATH }}
+        working-directory: ${{ env.PLUGIN_PATH }}
