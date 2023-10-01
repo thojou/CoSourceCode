@@ -144,6 +144,18 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
     }
 
     /**
+     * @return HttpService&MockObject
+     */
+    public function registerHttp(): HttpService
+    {
+        $this->http = $this->createMock(HttpService::class);
+
+        $this->mockCoreService('http', $this->http);
+
+        return $this->http;
+    }
+
+    /**
      * @param mixed $expectedContent
      */
     public function expectTplContent($expectedContent): void
@@ -183,7 +195,7 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
      */
     public function mockPostRequest(array $properties, array $queryParameters = []): void
     {
-        $this->http    = $this->createMock(HttpService::class);
+        $this->http ?? $this->registerHttp();
         $this->request = $this->createMock(ServerRequestInterface::class);
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -192,8 +204,6 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
         $this->request->method('getQueryParams')->willReturn($queryParameters);
         $this->http->method('request')->willReturn($this->request);
         $this->http->method('wrapper')->willReturn(new WrapperFactory($this->request));
-
-        $this->mockCoreService('http', $this->http);
     }
 
     public function setupGUICommons(): void
@@ -202,6 +212,7 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
         $this->registerTemplate();
         $this->registerCtrl();
         $this->registerRefinery();
+        $this->registerHttp();
         $this->registerComponentFactory();
     }
 }
