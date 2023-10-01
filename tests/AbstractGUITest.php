@@ -162,13 +162,13 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
     }
 
     /**
-     * @return HttpService&MockObject
+     * @return ilStyleDefinition&MockObject
      */
     public function registerStyleDefinition(): ilStyleDefinition
     {
         $this->styleDefinition = $this->createMock(ilStyleDefinition::class);
 
-        $this->mockCoreService('http', $this->styleDefinition);
+        $this->mockCoreService('styleDefinition', $this->styleDefinition);
 
         return $this->styleDefinition;
     }
@@ -250,6 +250,7 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
         $this->registerCtrl();
         $this->registerRefinery();
         $this->registerHttp();
+        $this->registerStyleDefinition();
         $this->registerComponentFactory();
     }
 }
