@@ -33,15 +33,15 @@ class PluginInfo
 
         $composerJson = (array)json_decode((string)file_get_contents($composerJsonPath), true);
 
-        if(!is_array($composerJson['authors'])) {
+        if(!isset($composerJson['authors']) || !is_array($composerJson['authors'])) {
             throw new \InvalidArgumentException('composer.json does not contain authors information');
         }
 
-        if(!is_array($composerJson['extra'])) {
+        if(!isset($composerJson['extra']) || !is_array($composerJson['extra'])) {
             throw new \InvalidArgumentException('composer.json does not contain extra information');
         }
 
-        if(!is_array($composerJson['extra']['ilias-plugin'])) {
+        if(!isset($composerJson['extra']['ilias-plugin']) || !is_array($composerJson['extra']['ilias-plugin'])) {
             throw new \InvalidArgumentException('composer.json does not contain ilias-plugin information');
         }
 

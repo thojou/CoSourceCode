@@ -50,6 +50,8 @@ class CoSourceCodeConfigGUITest extends AbstractGUITest
 
     public function testConfigure(): void
     {
+        $this->mockGetRequest();
+
         $this->expectTplContent($this->logicalAnd(
             $this->stringContains('language_actives'),
             $this->stringContains('language_default'),

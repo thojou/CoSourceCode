@@ -23,6 +23,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Tests\Refinery\TestCase;
 use ilLanguage;
+use ilStyleDefinition;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use Psr\Http\Message\ServerRequestInterface;
@@ -67,6 +68,11 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
      * @var ilDBInterface&object&MockObject
      */
     private ilDBInterface $db;
+
+    /**
+     * @var ilStyleDefinition&MockObject
+     */
+    private ilStyleDefinition $styleDefinition;
 
     /**
      * @return Refinery
@@ -156,6 +162,18 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
     }
 
     /**
+     * @return HttpService&MockObject
+     */
+    public function registerStyleDefinition(): ilStyleDefinition
+    {
+        $this->styleDefinition = $this->createMock(ilStyleDefinition::class);
+
+        $this->mockCoreService('http', $this->styleDefinition);
+
+        return $this->styleDefinition;
+    }
+
+    /**
      * @param mixed $expectedContent
      */
     public function expectTplContent($expectedContent): void
@@ -201,6 +219,25 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $this->request->method('getServerParams')->willReturn(['REQUEST_METHOD' => 'POST']);
         $this->request->method('getParsedBody')->willReturn($properties);
+        $this->request->method('getQueryParams')->willReturn($queryParameters);
+        $this->http->method('request')->willReturn($this->request);
+        $this->http->method('wrapper')->willReturn(new WrapperFactory($this->request));
+    }
+
+    /**
+     * @param array $properties
+     * @param array $queryParameters
+     *
+     * @return void
+     */
+    public function mockGetRequest(array $queryParameters = []): void
+    {
+        $this->http ?? $this->registerHttp();
+        $this->request = $this->createMock(ServerRequestInterface::class);
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $this->request->method('getServerParams')->willReturn(['REQUEST_METHOD' => 'GET']);
+        $this->request->method('getParsedBody')->willReturn([]);
         $this->request->method('getQueryParams')->willReturn($queryParameters);
         $this->http->method('request')->willReturn($this->request);
         $this->http->method('wrapper')->willReturn(new WrapperFactory($this->request));

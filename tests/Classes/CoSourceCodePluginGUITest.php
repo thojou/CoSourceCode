@@ -45,6 +45,7 @@ class CoSourceCodePluginGUITest extends AbstractGUITest
     public function testInsert(): void
     {
         $this->mockCommand('insert');
+        $this->mockGetRequest();
 
         $this->expectTplContent($this->logicalAnd(
             $this->stringContains('language'),
@@ -60,6 +61,7 @@ class CoSourceCodePluginGUITest extends AbstractGUITest
     public function testEdit(): void
     {
         $this->mockCommand('edit');
+        $this->mockGetRequest();
 
         $this->expectTplContent($this->logicalAnd(
             $this->stringContains('language'),

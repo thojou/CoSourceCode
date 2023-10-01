@@ -32,6 +32,8 @@ class SourceCodeConfigFormTest extends TestCase
 {
     public function testForm(): void
     {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
         $this->prepareDIC();
 
         $plugin = $this->createMock(\ilCoSourceCodePlugin::class);
