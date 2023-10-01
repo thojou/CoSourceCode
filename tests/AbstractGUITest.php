@@ -23,6 +23,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Tests\Refinery\TestCase;
 use ilLanguage;
+use ilObjUser;
 use ilStyleDefinition;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
@@ -73,6 +74,11 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
      * @var ilStyleDefinition&MockObject
      */
     private ilStyleDefinition $styleDefinition;
+
+    /**
+     * @var ilObjUser&MockObject
+     */
+    private ilObjUser $user;
 
     /**
      * @return Refinery
@@ -174,6 +180,18 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
     }
 
     /**
+     * @return ilObjUser&MockObject
+     */
+    public function registerUser(): ilObjUser
+    {
+        $this->user = $this->createMock(ilObjUser::class);
+
+        $this->mockCoreService('ilUser', $this->user);
+
+        return $this->user;
+    }
+
+    /**
      * @param mixed $expectedContent
      */
     public function expectTplContent($expectedContent): void
@@ -245,12 +263,13 @@ abstract class AbstractGUITest extends TestCase implements ContainerMockHelperIn
 
     public function setupGUICommons(): void
     {
-        $this->registerLanguage();
-        $this->registerTemplate();
-        $this->registerCtrl();
-        $this->registerRefinery();
-        $this->registerHttp();
-        $this->registerStyleDefinition();
         $this->registerComponentFactory();
+        $this->registerCtrl();
+        $this->registerHttp();
+        $this->registerLanguage();
+        $this->registerRefinery();
+        $this->registerStyleDefinition();
+        $this->registerTemplate();
+        $this->registerUser();
     }
 }
