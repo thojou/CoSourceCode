@@ -16,14 +16,14 @@ namespace CoSourceCode\Tests;
 use ilCoSourceCodePlugin;
 use ILIAS\DI\Container;
 
-trait IliasContainerMockHelperTrait
+trait ContainerMockHelperTrait
 {
     /**
      * @var array<string, object>
      */
     private array $mockedServices = [];
 
-    public function mockCoreService(string $key, object $service): IliasContainerMockHelperInterface
+    public function mockCoreService(string $key, object $service): ContainerMockHelperInterface
     {
         global $DIC;
 
@@ -49,7 +49,7 @@ trait IliasContainerMockHelperTrait
         return $this;
     }
 
-    public function mockPluginService(string $key, object $service): IliasContainerMockHelperInterface
+    public function mockPluginService(string $key, object $service): ContainerMockHelperInterface
     {
         return $this->mockCoreService(ilCoSourceCodePlugin::PLUGIN_ID . '.' . $key, $service);
     }

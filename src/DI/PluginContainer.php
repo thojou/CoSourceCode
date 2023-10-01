@@ -15,11 +15,7 @@ namespace CoSourceCode\DI;
 
 use ILIAS\DI\Container;
 
-use function is_array;
-use function is_callable;
 use function is_object;
-use function is_resource;
-use function is_scalar;
 
 class PluginContainer
 {
@@ -30,11 +26,7 @@ class PluginContainer
 
     public static function init(Container $dic, string $pluginId): self
     {
-        if(!self::$instance) {
-            self::$instance = new self($dic, $pluginId);
-        }
-
-        return self::$instance;
+        return self::$instance = new self($dic, $pluginId);
     }
 
     public static function get(): self

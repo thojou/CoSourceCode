@@ -1,0 +1,10 @@
+{
+  "extra": {
+    "ilias-plugin": {
+      "id": "plugin_id",
+      "version": "1.0.0",
+      "min_version": "8",
+      "max_version": "8.999"
+    }
+  }
+}

@@ -16,46 +16,79 @@ namespace CoSourceCode\Tests\Classes;
 use CoSourceCode\DI\PluginContainer;
 use CoSourceCode\Options\LanguageOptionsService;
 use CoSourceCode\Options\ThemeOptionsService;
-use CoSourceCode\Tests\IliasContainerMockHelperInterface;
-use CoSourceCode\Tests\IliasContainerMockHelperTrait;
-use ilComponentFactory;
+use CoSourceCode\Tests\AbstractGUITest;
+use CoSourceCode\Tests\ConfigGUIHelperTrait;
 use ilCoSourceCodeConfigGUI;
 use ilCoSourceCodePlugin;
-use ilCtrl;
-use ilGlobalTemplate;
-use ilLanguage;
-use PHPUnit\Framework\TestCase;
+use ilSetting;
+use LogicException;
 
-class CoSourceCodeConfigGUITest extends TestCase implements IliasContainerMockHelperInterface
+class CoSourceCodeConfigGUITest extends AbstractGUITest
 {
-    use IliasContainerMockHelperTrait;
+    use ConfigGUIHelperTrait;
 
-    public function testConfigure(): void
+    protected function setUp(): void
     {
-        $tpl = $this->createMock(ilGlobalTemplate::class);
+        $this->setupGUICommons();
+
+        $ilSettings = $this->createMock(ilSetting::class);
         $DIC = $this
-            ->mockCoreService('tpl', $tpl)
-            ->mockCoreService('lng', $this->createMock(ilLanguage::class))
-            ->mockCoreService('ilCtrl', $this->createMock(ilCtrl::class))
-            ->mockCoreService('component.factory', $this->createMock(ilComponentFactory::class))
-            ->mockPluginService(LanguageOptionsService::class, $this->createMock(LanguageOptionsService::class))
-            ->mockPluginService(ThemeOptionsService::class, $this->createMock(ThemeOptionsService::class))
+            ->mockPluginService(LanguageOptionsService::class, new LanguageOptionsService($ilSettings))
+            ->mockPluginService(ThemeOptionsService::class, new ThemeOptionsService($ilSettings))
             ->getDICMock();
 
         PluginContainer::init($DIC, ilCoSourceCodePlugin::PLUGIN_ID);
+    }
 
-        $tpl
-            ->expects($this->once())
-            ->method('setContent')
-            ->with($this->logicalAnd(
-                $this->stringContains('language_actives'),
-                $this->stringContains('language_default'),
-                $this->stringContains('theme_actives'),
-                $this->stringContains('theme_default'),
-            ));
+    public function testMissingPluginObject(): void
+    {
+        $this->expectException(LogicException::class);
 
         $gui = new ilCoSourceCodeConfigGUI();
-        $gui->setPluginObject($this->createMock(ilCoSourceCodePlugin::class));
         $gui->performCommand('configure');
+    }
+
+    public function testConfigure(): void
+    {
+        $this->expectTplContent($this->logicalAnd(
+            $this->stringContains('language_actives'),
+            $this->stringContains('language_default'),
+            $this->stringContains('theme_actives'),
+            $this->stringContains('theme_default'),
+        ));
+
+        $this->performConfigGUICommand('configure', new ilCoSourceCodeConfigGUI(), ilCoSourceCodePlugin::class);
+    }
+
+    public function testInvalidSave(): void
+    {
+        $this->mockPostRequest([]);
+        $this->expectRedirect($this->never(), 'configure');
+        $this->expectTplContent($this->logicalAnd(
+            $this->stringContains('language_actives'),
+            $this->stringContains('language_default'),
+            $this->stringContains('theme_actives'),
+            $this->stringContains('theme_default'),
+        ));
+        $this->performConfigGUICommand('save', new ilCoSourceCodeConfigGUI(), ilCoSourceCodePlugin::class);
+    }
+
+    public function testSave(): void
+    {
+        $this->mockPostRequest([
+            'language_actives' => ['php', 'js'],
+            'language_default' => 'js',
+            'theme_actives' => ['atom-one-dark', 'atom-one-light'],
+            'theme_default' => 'atom-one-light',
+        ]);
+
+        $this->expectTplContent($this->logicalAnd(
+            $this->stringContains('language_actives'),
+            $this->stringContains('language_default'),
+            $this->stringContains('theme_actives'),
+            $this->stringContains('theme_default'),
+        ));
+
+        $this->performConfigGUICommand('save', new ilCoSourceCodeConfigGUI(), ilCoSourceCodePlugin::class);
     }
 }

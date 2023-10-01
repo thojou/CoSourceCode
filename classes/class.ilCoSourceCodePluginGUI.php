@@ -81,7 +81,7 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
             return;
         }
 
-        if ($this->createElement($form->getData())) {
+        if (!$this->createElement($form->getData())) {
             return;
         }
 

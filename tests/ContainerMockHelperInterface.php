@@ -15,7 +15,7 @@ namespace CoSourceCode\Tests;
 
 use ILIAS\DI\Container;
 
-interface IliasContainerMockHelperInterface
+interface ContainerMockHelperInterface
 {
     public function mockCoreService(string $key, object $service): self;
     public function mockPluginService(string $key, object $service): self;

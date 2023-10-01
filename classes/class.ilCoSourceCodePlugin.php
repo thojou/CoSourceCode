@@ -66,29 +66,6 @@ class ilCoSourceCodePlugin extends ilPageComponentPlugin
     }
 
     /**
-     * Returns the assets folder path
-     *
-     * @return string
-     */
-    public function assetsFolder(): string
-    {
-        return $this->getDirectory() . "/assets/";
-    }
-
-    /**
-     * @param string $a_template
-     * @param bool   $a_par1
-     * @param bool   $a_par2
-     *
-     * @return ilTemplate
-     * @throws ilTemplateException
-     */
-    public function getTemplate(string $a_template, bool $a_par1 = true, bool $a_par2 = true): ilTemplate
-    {
-        return new ilTemplate($this->assetsFolder() . "templates/{$a_template}", $a_par1, $a_par2);
-    }
-
-    /**
      * @param string $a_mode
      *
      * @return array<string>

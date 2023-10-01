@@ -1,0 +1,15 @@
+{
+  "authors": [
+    {
+      "name": "Author Name",
+      "email": "author@example.com"
+    }
+  ],
+  "extra": {
+    "ilias-plugin": {
+      "id": "plugin_id",
+      "min_version": "8",
+      "max_version": "8.999"
+    }
+  }
+}
