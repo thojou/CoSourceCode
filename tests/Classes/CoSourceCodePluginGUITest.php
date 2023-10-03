@@ -179,7 +179,15 @@ class CoSourceCodePluginGUITest extends AbstractGUITestCase
 
     public function testUpdate(): void
     {
-        $properties = [
+        $this->registerPCPluggedGUI([
+            'language' => 'php',
+            'lineNumbers' => true,
+            'theme' => 'atom-one-light',
+            'srcCode' => 'echo "Hello World";',
+            'description' => 'Print "Hello World" with echo'
+        ]);
+
+        $request = [
             'language' => 'js',
             'lineNumbers' => false,
             'theme' => 'atom-one-light',
@@ -188,9 +196,9 @@ class CoSourceCodePluginGUITest extends AbstractGUITestCase
         ];
 
         $this->mockCommand('update');
-        $this->mockPostRequest($properties);
+        $this->mockPostRequest($request);
 
-        $this->expectPCGUIUpdate($this->equalTo($properties));
+        $this->expectPCGUIUpdate($this->equalTo($request));
         $this->expectTplContent(
             $this->logicalAnd(
                 $this->stringContains('language'),

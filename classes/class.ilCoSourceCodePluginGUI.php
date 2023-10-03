@@ -95,7 +95,7 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
      */
     public function update(): void
     {
-        $form = $this->renderForm(SourceCodeForm::MODE_UPDATE, $this->getProperties());
+        $form = $this->renderForm(SourceCodeForm::MODE_UPDATE);
 
         if (!$form->checkInput()) {
             return;
