@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5d9f3ef523b6baef080f026b2c97bfc",
+    "content-hash": "055305e1b701711f5ff98085fc5e8109",
     "packages": [
         {
             "name": "scrivo/highlight.php",
@@ -83,6 +83,59 @@
                 }
             ],
             "time": "2022-12-17T21:53:22+00:00"
+        },
+        {
+            "name": "thojou/ilias-plugin-utils",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thojou/ilias-plugin-utils.git",
+                "reference": "312a624084cfd9fd6938a9d745e908ed3646b518"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thojou/ilias-plugin-utils/zipball/312a624084cfd9fd6938a9d745e908ed3646b518",
+                "reference": "312a624084cfd9fd6938a9d745e908ed3646b518",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4|8.0.*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.23",
+                "phpstan/extension-installer": "^1.3",
+                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan-phpunit": "^1.3",
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Thojou\\Ilias\\Plugin\\Utils\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Joußen",
+                    "email": "tjoussen91@gmail.com"
+                }
+            ],
+            "description": "A collection of utility classes and tools for developing ILIAS plugins.",
+            "keywords": [
+                "ILIAS",
+                "development",
+                "plugin",
+                "utility"
+            ],
+            "support": {
+                "issues": "https://github.com/thojou/ilias-plugin-utils/issues",
+                "source": "https://github.com/thojou/ilias-plugin-utils/tree/v1.0.1"
+            },
+            "time": "2023-10-03T12:41:40+00:00"
         }
     ],
     "packages-dev": [

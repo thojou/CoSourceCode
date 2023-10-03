@@ -21,8 +21,6 @@ use ilPropertyFormGUI;
 use ilSelectInputGUI;
 
 use function array_combine;
-use function method_exists;
-use function var_dump;
 
 class SourceCodeConfigForm extends ilPropertyFormGUI
 {

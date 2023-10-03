@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace CoSourceCode\Tests\Classes;
 
-use CoSourceCode\Tests\AbstractGUITest;
-use CoSourceCode\Tests\PluginHelperTrait;
 use ilCoSourceCodePlugin;
+use Thojou\Ilias\Plugin\Utils\Test\TestCase\AbstractPluginTestCase;
 
-class CoSourceCodePluginTest extends AbstractGUITest
+class CoSourceCodePluginTest extends AbstractPluginTestCase
 {
-    use PluginHelperTrait;
-
-    public function testInitializationOnce()
+    public function testInitializationOnce(): void
     {
         $this->registerLanguage();
         $database = $this->registerDatabase();
@@ -32,7 +29,7 @@ class CoSourceCodePluginTest extends AbstractGUITest
         $this->assertTrue(true);
     }
 
-    public function testGetPluginDir()
+    public function testGetPluginDir(): void
     {
         $this->assertEquals(
             "Customizing/global/plugins/Services/COPage/PageComponent/CoSourceCode",
@@ -40,7 +37,7 @@ class CoSourceCodePluginTest extends AbstractGUITest
         );
     }
 
-    public function testIsValidParentType()
+    public function testIsValidParentType(): void
     {
         $this->registerLanguage();
         $database = $this->registerDatabase();
@@ -51,7 +48,7 @@ class CoSourceCodePluginTest extends AbstractGUITest
     }
 
 
-    public function testCssFiles()
+    public function testCssFiles(): void
     {
         $this->registerLanguage();
         $database = $this->registerDatabase();
@@ -66,4 +63,8 @@ class CoSourceCodePluginTest extends AbstractGUITest
         );
     }
 
+    protected function getPluginId(): string
+    {
+        return ilCoSourceCodePlugin::PLUGIN_ID;
+    }
 }

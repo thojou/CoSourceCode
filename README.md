@@ -2,6 +2,9 @@
 
 ![Static Badge](https://img.shields.io/badge/PHP_Version-%3E%3D7.4-blue)
 [![License](https://img.shields.io/github/license/thojou/CoSourceCode)](./LICENSE)
+[![CI](https://github.com/thojou/CoSourceCode/actions/workflows/ci.yaml/badge.svg)](https://github.com/thojou/CoSourceCode/actions/workflows/ci.yaml)
+![Coverage](https://img.shields.io/badge/coverage-100%25-green)
+![PHPStan](https://img.shields.io/badge/PHPStan-level%209-brightgreen.svg?style=flat)
 
 The **CoSourceCode** plugin introduces a new ILIAS page component designed for displaying source code files with syntax highlighting.
 Unlike the SourceCode PageComponent included in the ILIAS Core, this plugin offers support for a wider range of programming

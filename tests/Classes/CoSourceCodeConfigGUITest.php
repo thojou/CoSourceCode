@@ -13,17 +13,17 @@ declare(strict_types=1);
 
 namespace CoSourceCode\Tests\Classes;
 
-use CoSourceCode\DI\PluginContainer;
 use CoSourceCode\Options\LanguageOptionsService;
 use CoSourceCode\Options\ThemeOptionsService;
-use CoSourceCode\Tests\AbstractGUITest;
-use CoSourceCode\Tests\ConfigGUIHelperTrait;
 use ilCoSourceCodeConfigGUI;
 use ilCoSourceCodePlugin;
 use ilSetting;
 use LogicException;
+use Thojou\Ilias\Plugin\Utils\DI\PluginContainer;
+use Thojou\Ilias\Plugin\Utils\Test\TestCase\AbstractGUITestCase;
+use Thojou\Ilias\Plugin\Utils\Test\Traits\ConfigGUIHelperTrait;
 
-class CoSourceCodeConfigGUITest extends AbstractGUITest
+class CoSourceCodeConfigGUITest extends AbstractGUITestCase
 {
     use ConfigGUIHelperTrait;
 
@@ -92,5 +92,10 @@ class CoSourceCodeConfigGUITest extends AbstractGUITest
         ));
 
         $this->performConfigGUICommand('save', new ilCoSourceCodeConfigGUI(), ilCoSourceCodePlugin::class);
+    }
+
+    protected function getPluginId(): string
+    {
+        return ilCoSourceCodePlugin::PLUGIN_ID;
     }
 }

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-use CoSourceCode\PluginInfo;
+use Thojou\Ilias\Plugin\Utils\Info\PluginInfo;
 
 $pluginInfo = PluginInfo::resolve(__DIR__ . '/composer.json');
 extract($pluginInfo);

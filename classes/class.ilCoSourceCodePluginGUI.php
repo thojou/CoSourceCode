@@ -12,14 +12,11 @@ declare(strict_types=1);
  */
 
 use CoSourceCode\CodeHighlighter;
-use CoSourceCode\DI\PluginContainer;
 use CoSourceCode\Form\SourceCodeForm;
 use CoSourceCode\Options\LanguageOptionsService;
 use CoSourceCode\Options\OptionsServiceInterface;
 use CoSourceCode\Options\ThemeOptionsService;
-use Highlight\Highlighter;
-
-use function HighlightUtilities\splitCodeIntoArray;
+use Thojou\Ilias\Plugin\Utils\DI\PluginContainer;
 
 /**
  * @ilCtrl_isCalledBy ilCoSourceCodePluginGUI: ilPCPluggedGUI
@@ -117,9 +114,9 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
     }
 
     /**
-     * @param string        $a_mode
-     * @param array<string> $a_properties
-     * @param string        $plugin_version
+     * @param string                     $a_mode
+     * @param array<string, string|bool> $a_properties
+     * @param string                     $plugin_version
      *
      * @return string
      * @throws ilSystemStyleException
@@ -134,8 +131,8 @@ class ilCoSourceCodePluginGUI extends ilPageComponentPluginGUI
 
         $showLineNumbers = $a_properties['lineNumbers'] ?? false;
         $highlighted = $this->codeHighlighter->highlight(
-            $a_properties['srcCode'],
-            $a_properties['language'],
+            (string)$a_properties['srcCode'],
+            (string)$a_properties['language'],
             (bool)$showLineNumbers
         );
 

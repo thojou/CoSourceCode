@@ -11,11 +11,11 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-use CoSourceCode\DI\PluginContainer;
 use CoSourceCode\Form\SourceCodeConfigForm;
 use CoSourceCode\Options\LanguageOptionsService;
 use CoSourceCode\Options\OptionsServiceInterface;
 use CoSourceCode\Options\ThemeOptionsService;
+use Thojou\Ilias\Plugin\Utils\DI\PluginContainer;
 
 /**
  * @ilCtrl_IsCalledBy ilCoSourceCodeConfigGUI: ilUIPluginRouterGUI,ilObjComponentSettingsGUI

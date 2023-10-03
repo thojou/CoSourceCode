@@ -12,11 +12,9 @@ declare(strict_types=1);
  */
 
 use CoSourceCode\CodeHighlighter;
-use CoSourceCode\DI\PluginContainer;
-use CoSourceCode\Form\SourceCodeForm;
 use CoSourceCode\Options\LanguageOptionsService;
 use CoSourceCode\Options\ThemeOptionsService;
-use Highlight\Highlighter;
+use Thojou\Ilias\Plugin\Utils\DI\PluginContainer;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 

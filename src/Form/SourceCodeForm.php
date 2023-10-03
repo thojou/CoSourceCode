@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace CoSourceCode\Form;
 
 use CoSourceCode\Options\OptionsServiceInterface;
-use Highlight\Highlighter;
 use ilCheckboxInputGUI;
 use ilCoSourceCodePlugin;
 use ilCoSourceCodePluginGUI;
@@ -26,9 +25,7 @@ use ilTextInputGUI;
 
 use function array_combine;
 use function array_fill;
-use function HighlightUtilities\getAvailableStyleSheets;
 use function preg_replace;
-use function sort;
 
 class SourceCodeForm extends ilPropertyFormGUI
 {

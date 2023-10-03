@@ -14,23 +14,22 @@ declare(strict_types=1);
 namespace CoSourceCode\Tests\Classes;
 
 use CoSourceCode\CodeHighlighter;
-use CoSourceCode\DI\PluginContainer;
 use CoSourceCode\Options\LanguageOptionsService;
 use CoSourceCode\Options\ThemeOptionsService;
-use CoSourceCode\Tests\AbstractGUITest;
-use CoSourceCode\Tests\PageComponentHelperTrait;
 use ilCoSourceCodePlugin;
 use ilCoSourceCodePluginGUI;
 use ilSetting;
+use Thojou\Ilias\Plugin\Utils\DI\PluginContainer;
+use Thojou\Ilias\Plugin\Utils\Test\TestCase\AbstractGUITestCase;
+use Thojou\Ilias\Plugin\Utils\Test\Traits\PageComponentHelperTrait;
 
-class CoSourceCodePluginGUITest extends AbstractGUITest
+class CoSourceCodePluginGUITest extends AbstractGUITestCase
 {
     use PageComponentHelperTrait;
 
     protected function setUp(): void
     {
         $this->setupGUICommons();
-        ;
         $this->registerPCPluggedGUI();
 
         $ilSettings = $this->createMock(ilSetting::class);
@@ -247,5 +246,10 @@ class CoSourceCodePluginGUITest extends AbstractGUITest
         $this->assertStringContainsString('console', $html);
         $this->assertStringContainsString('"Hello World"', $html);
         $this->assertStringContainsString('<em class="small">Print "Hello World" to console</em>', $html);
+    }
+
+    protected function getPluginId(): string
+    {
+        return ilCoSourceCodePlugin::PLUGIN_ID;
     }
 }
